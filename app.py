@@ -105,7 +105,7 @@ def populate():
    
     base_url = 'http://127.0.0.1:5000/weather'
 
-   
+
     for city in cities:
         try:
             response = requests.get(base_url, params={'city': city})
