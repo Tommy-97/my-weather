@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///history.db'
 db = SQLAlchemy(app)
 
-# Настройка логирования
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -36,10 +36,10 @@ def index():
                     'appid': api_key,
                     'units': 'metric'
                 })
-                response.raise_for_status()  # Raise an HTTPError for bad responses
+                response.raise_for_status()  
                 weather_data = response.json()
 
-                # Save search history
+                
                 history = SearchHistory.query.filter_by(city=city).first()
                 if history:
                     history.count += 1
@@ -70,10 +70,10 @@ def get_weather():
             'appid': api_key,
             'units': 'metric'
         })
-        response.raise_for_status()  # Raise an HTTPError for bad responses
+        response.raise_for_status() 
         data = response.json()
 
-        # Save search history
+        
         history = SearchHistory.query.filter_by(city=city).first()
         if history:
             history.count += 1
@@ -99,17 +99,17 @@ def get_history():
 
 @app.route('/populate', methods=['GET'])
 def populate():
-    # Список городов для тестирования
+    # Список городов для тестирования, можно и другие применять 
     cities = ['Moscow', 'London', 'New York', 'Beijing', 'Paris', 'Rome']
 
-    # Ваш сервер Flask
+   
     base_url = 'http://127.0.0.1:5000/weather'
 
-    # Отправляем запросы для каждого города
+   
     for city in cities:
         try:
             response = requests.get(base_url, params={'city': city})
-            response.raise_for_status()  # Raise an HTTPError for bad responses
+            response.raise_for_status() 
             logger.info(f'Weather data for {city}: {response.json()}')
         except requests.RequestException as e:
             logger.error(f'Failed to get weather data for {city}: {e}')
@@ -117,5 +117,5 @@ def populate():
     return jsonify({'status': 'Population complete'})
 
 if __name__ == '__main__':
-    create_tables()  # Создать таблицы перед запуском приложения
+    create_tables()  
     app.run(debug=True)
