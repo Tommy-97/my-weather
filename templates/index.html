@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(26, 26, 26, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            background: linear-gradient(90deg, #ff9800, #f44336, #9c27b0, #2196f3, #4caf50);
+            background-size: 400% 400%;
+            animation: gradient 5s ease infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 165, 0, 0.5);
+            letter-spacing: 5px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        input[type="text"], input[type="submit"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        
+        input[type="text"] {
+            border: 1px solid #333;
+            width: 80%;
+            margin-right: 10px;
+            background-color: #222;
+            color: #fff;
+        }
+        
+        input[type="submit"] {
+            background-color: #9c27b0;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .weather-info {
+            text-align: center;
+        }
+        
+        .weather-info h2 {
+            color: #9c27b0;
+        }
+        
+        .weather-info p {
+            font-size: 18px;
+            color: #e1bee7;
+        }
+        
+        .error {
+            color: red;
+            text-align: center;
+        }
+        
+        
+        .star {
+            position: absolute;
+            background: radial-gradient(circle, #87CEEB, #ffffff);
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out alternate;
+        }
+        
+        .star.large {
+            width: 6px;
+            height: 6px;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 1);
+        }
+        
+        .star.small {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 10px rgba(135, 206, 235, 1);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .black-hole {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000 30%, transparent 80%);
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.9);
+            animation: spin 10s infinite linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .black-hole.left {
+            top: 50%;
+            left: -100px;
+            transform: translateY(-50%);
+        }
+        
+        .black-hole.right {
+            top: 50%;
+            right: -100px;
+            transform: translateY(-50%);
+        }
+        
+        .accretion-disk {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 255, 0, 0.5), rgba(255, 255, 0, 0) 60%);
+            animation: spin 10s linear infinite;
+            top: -50%;
+            left: -50%;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .nebula {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.nasa.gov/sites/default/files/thumbnails/image/potw2026a.jpg') no-repeat center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: 1;
+        }
+        
+        
+        .star:nth-child(1) { top: 10%; left: 20%; }
+        .star:nth-child(2) { top: 25%; left: 70%; }
+        .star:nth-child(3) { top: 50%; left: 40%; }
+        .star:nth-child(4) { top: 80%; left: 30%; }
+        .star:nth-child(5) { top: 15%; left: 50%; }
+        .star:nth-child(6) { top: 60%; left: 80%; }
+        .star:nth-child(7) { top: 70%; left: 10%; }
+        .star:nth-child(8) { top: 5%; left: 85%; }
+        .star:nth-child(9) { top: 90%; left: 60%; }
+        .star:nth-child(10) { top: 30%; left: 15%; }
+        
+        
+        .comet {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(135,206,235,1) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(135,206,235,1);
+            transform: rotate(-45deg);
+            animation: moveComet 2s linear infinite;
+        }
+        
+        @keyframes moveComet {
+            from { transform: translate(0, 0) rotate(-130deg); }
+            to { transform: translate(500vw, 460vh) rotate(-170deg); }
+        }
+        
+        .export-form input[type="submit"] {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #ff9800; 
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.6), 0 0 15px rgba(255, 152, 0, 0.4);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="nebula"></div>
+
+    <div class="black-hole left">
+        <div class="accretion-disk"></div>
+    </div>
+    <div class="black-hole right">
+        <div class="accretion-disk"></div>
+    </div>
+
+    <div class="star large"></div>
+    <div class="star small"></div>
+    <div class="star large"></div>
+    <div class="star small"></div>
+    <div class="star large"></div>
+    <div class="star small"></div>
+    <div class="star large"></div>
+    <div class="star small"></div>
+    <div class="star large"></div>
+    <div class="star small"></div>
+
+
+    <div class="comet"></div>
+
+    <div class="container">
+        <h1>Weather Data</h1>
+        <form id="weatherForm">
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <input type="submit" value="Fetch Weather">
+        </form>
+
+        <div class="weather-info" id="weatherInfo">
+            <h2 id="cityName"></h2>
+            <p id="weatherDesc"></p>
+            <p id="temp"></p>
+            <p id="wind"></p>
+            <p id="pressure"></p>
+        </div>
+
+        <form id="exportForm" action="/export_weather" method="post">
+            <input type="submit" value="Export Last 10 Records to Excel">
+        </form>
+
+        <div class="error" id="error"></div>
+    </div>
+    <script>
+        document.getElementById('weatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const city = document.getElementById('cityInput').value;
+            try {
+                const response = await fetch(`/weather?city=${city}`);
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('cityName').textContent = city;
+                    document.getElementById('weatherDesc').textContent = `Weather: ${data.weather[0]?.description || 'N/A'}`;
+                    document.getElementById('temp').textContent = `Temperature: ${data.main?.temp || 'N/A'}°C`;
+                    document.getElementById('wind').textContent = `Wind: ${data.wind?.speed || 'N/A'} m/s`;
+                    document.getElementById('pressure').textContent = `Pressure: ${data.main?.pressure || 'N/A'} hPa`;
+                } else {
+                    document.getElementById('error').textContent = data.error || 'Failed to fetch weather data';
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = 'An error occurred while fetching weather data';
+            }
+        });
+        
+        document.getElementById('exportForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            fetch('/export', { method: 'GET' })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'weather_data.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(() => alert('Error occurred while exporting data.'));
+        });
+        
+    </script>
+</body>
+</html>
+
