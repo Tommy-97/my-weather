@@ -1,25 +1,23 @@
 import asyncio
-from asyncio import Semaphore
-
 import logging
 import os
-from io import BytesIO  
-import aiohttp
-from aiohttp import ClientSession
+from asyncio import Semaphore
+from datetime import datetime, timedelta
+from io import BytesIO
 
+import aiohttp
 import pandas as pd
 import requests
 import tornado
+from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from flask import Flask, jsonify, render_template, request, send_file
+from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base
 from tenacity import retry, wait_fixed
-from datetime import datetime, timedelta
-from flask_caching import Cache
- 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Otventa2593@localhost:5432/base'
